@@ -47,7 +47,7 @@ test/
 Las pruebas de `test/` se escribieron **antes** que el código. `flutter test` falla porque `lib/modelos/...`
 y `lib/logica/...` todavía no existen:
 
-![Rojo: las pruebas no compilan](capturas/01_rojo_no_compila.png)
+![Rojo: las pruebas no compilan](captura/01_rojo_no_compila.png)
 
 ### 2. ❌ Error real atrapado por una prueba
 
@@ -61,7 +61,7 @@ Después de entregar el último turno, `turnoActual` vale 4 y la lista solo tien
 *"la pantalla no truena cuando la tanda termina"* juega las 4 rondas completas y atrapó el `RangeError` (en el
 teléfono habría salido la pantalla roja de error):
 
-![Error atrapado por la prueba](capturas/02_error_rangeerror.png)
+![Error atrapado por la prueba](captura/02_error_rangeerror.png)
 
 **Corrección:** la pantalla ya no indexa la lista; le pregunta al servicio, que devuelve `null` cuando la tanda
 terminó (con su propia prueba de dominio):
@@ -84,15 +84,15 @@ Además, al terminar se muestra **"Tanda terminada"**, se deshabilitan los boton
 Las condiciones de `registrarAportacion()` se nombraron como reglas de negocio (Ronda 8) y `flutter analyze`
 quedó sin avisos:
 
-![Analyze limpio](capturas/04_analyze_limpio.png)
+![Analyze limpio](captura/04_analyze_limpio.png)
 
 ### 4. 🟢 VERDE — las 21 pruebas pasan
 
-![Verde: todas las pruebas pasan](capturas/05_verde_pruebas.png)
+![Verde: todas las pruebas pasan](captura/05_verde_pruebas.png)
 
 ### 5. 📦 Compilación del APK
 
-![Compilación del APK](capturas/06_build_apk.png)
+![Compilación del APK](captura/06_build_apk.png)
 
 ---
 
