@@ -97,7 +97,19 @@ flutter test
 
 ---
 
-## 📱 Qué probar en la app
+## 📱 Capturas de la app
+
+> Tomadas en un teléfono físico con el APK instalado. *Guarda tus capturas en `capturas/` con estos nombres y aparecerán aquí automáticamente.*
+
+| Inicio (ronda 1) | Vecinos aportando | Turno entregado (animación) |
+|---|---|---|
+| ![](capturas/app_01_inicio.png) | ![](capturas/app_02_aportando.png) | ![](capturas/app_03_turno_entregado.png) |
+
+| Ronda 2 (turno de Beto) | Tanda terminada | Error: cerrar con faltantes |
+|---|---|---|
+| ![](capturas/app_04_ronda2.png) | ![](capturas/app_05_tanda_terminada.png) | ![](capturas/app_06_error_faltan_aportaciones.png) |
+
+### Qué probar en la app
 
 | Caso | Qué hacer | Resultado esperado |
 |---|---|---|
