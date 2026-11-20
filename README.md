@@ -1,12 +1,8 @@
 # Tanda Doloreña — ahorro rotativo vecinal con TDD
 
-App Flutter que lleva el control de una **tanda** entre vecinos de Dolores Hidalgo: quién ya aportó en la ronda,
-cuándo se puede cerrar y a quién le toca recibir el dinero, con animaciones al entregar el turno. Construida con
-**TDD (Rojo → Verde → Refactor)** siguiendo el *Manual paso a paso con TDD — Tanda Doloreña*.
+App Flutter que lleva el control de una **tanda** entre vecinos de Dolores Hidalgo: quién ya aportó en la ronda, cuándo se puede cerrar y a quién le toca recibir el dinero, con animaciones al entregar el turno. Construida con **TDD (Rojo → Verde → Refactor)** siguiendo el *Manual paso a paso con TDD — Tanda Doloreña*.
 
-**Reglas protegidas con pruebas:** cada vecino aporta máximo una vez por ronda · solo aportan participantes reales ·
-la ronda se cierra solo cuando todos aportaron · el turno sigue el orden acordado · al terminar ya no se aceptan
-aportaciones. **Reto del manual:** barajar el orden de turnos antes de empezar.
+**Reglas protegidas con pruebas:** cada vecino aporta máximo una vez por ronda · solo aportan participantes reales · la ronda se cierra solo cuando todos aportaron · el turno sigue el orden acordado · al terminar ya no se aceptan aportaciones. **Reto del manual:** barajar el orden de turnos antes de empezar.
 
 ---
 
@@ -27,7 +23,7 @@ El APK es para teléfonos **arm64** (prácticamente todos los Android de los úl
 
 ## 🏗️ Estructura
 
-```
+```text
 lib/
 ├── modelos/        participante · tanda · cierre_ronda           (Dart puro)
 ├── logica/         servicio_tanda · resultado_aportacion · resultado_cierre
@@ -44,10 +40,7 @@ test/
 
 ### 1. 🔴 ROJO — las pruebas se escriben primero y fallan
 
-Las pruebas de `test/` se escribieron **antes** que el código. `flutter test` falla porque `lib/modelos/...`
-y `lib/logica/...` todavía no existen:
-
-![Rojo: las pruebas no compilan](captura/01_rojo_no_compila.png)
+Las pruebas de `test/` se escribieron **antes** que el código. `flutter test` falla porque `lib/modelos/...` y `lib/logica/...` todavía no existen.
 
 ### 2. ❌ Error real atrapado por una prueba
 
@@ -57,14 +50,9 @@ La pantalla se escribió **tal cual el manual**. Para saber quién tiene el turn
 final esTurnoActual = _tanda.ordenTurnos[_tanda.turnoActual] == participante.id;   // ❌
 ```
 
-Después de entregar el último turno, `turnoActual` vale 4 y la lista solo tiene índices 0..3. La prueba de widget
-*"la pantalla no truena cuando la tanda termina"* juega las 4 rondas completas y atrapó el `RangeError` (en el
-teléfono habría salido la pantalla roja de error):
+Después de entregar el último turno, `turnoActual` vale 4 y la lista solo tiene índices 0..3. La prueba de widget *"la pantalla no truena cuando la tanda termina"* juega las 4 rondas completas y atrapó el `RangeError` (en el teléfono habría salido la pantalla roja de error).
 
-![Error atrapado por la prueba](captura/02_error_rangeerror.png)
-
-**Corrección:** la pantalla ya no indexa la lista; le pregunta al servicio, que devuelve `null` cuando la tanda
-terminó (con su propia prueba de dominio):
+**Corrección:** la pantalla ya no indexa la lista; le pregunta al servicio, que devuelve `null` cuando la tanda terminó (con su propia prueba de dominio):
 
 ```dart
 Participante? beneficiarioActual() {
@@ -76,23 +64,19 @@ Participante? beneficiarioActual() {
 final esTurnoActual = beneficiario?.id == participante.id;   // ✅
 ```
 
-Además, al terminar se muestra **"Tanda terminada"**, se deshabilitan los botones y `cerrarRondaYAvanzar()` devuelve
-`ResultadoCierre.tandaYaTermino` (en el manual ese valor existía pero nunca se usaba).
+Además, al terminar se muestra **"Tanda terminada"**, se deshabilitan los botones y `cerrarRondaYAvanzar()` devuelve `ResultadoCierre.tandaYaTermino` (en el manual ese valor existía pero nunca se usaba).
 
 ### 3. 🔵 REFACTOR — limpiar sin romper nada
 
-Las condiciones de `registrarAportacion()` se nombraron como reglas de negocio (Ronda 8) y `flutter analyze`
-quedó sin avisos:
-
-![Analyze limpio](captura/04_analyze_limpio.png)
+Las condiciones de `registrarAportacion()` se nombraron como reglas de negocio (Ronda 8) y `flutter analyze` quedó sin avisos.
 
 ### 4. 🟢 VERDE — las 21 pruebas pasan
 
-![Verde: todas las pruebas pasan](captura/05_verde_pruebas.png)
+Las 21 pruebas del proyecto pasan tras completar el ciclo de desarrollo y correcciones.
 
 ### 5. 📦 Compilación del APK
 
-![Compilación del APK](captura/06_build_apk.png)
+El APK de liberación se compila en modo `release` para `android-arm64`.
 
 ---
 
@@ -113,19 +97,7 @@ flutter test
 
 ---
 
-## 📱 Capturas de la app
-
-> Tomadas en un teléfono físico con el APK instalado. *Guarda tus capturas en `capturas/` con estos nombres y aparecerán aquí automáticamente.*
-
-| Inicio (ronda 1) | Vecinos aportando | Turno entregado (animación) |
-|---|---|---|
-| ![](capturas/app_01_inicio.png) | ![](capturas/app_02_aportando.png) | ![](capturas/app_03_turno_entregado.png) |
-
-| Ronda 2 (turno de Beto) | Tanda terminada | Error: cerrar con faltantes |
-|---|---|---|
-| ![](capturas/app_04_ronda2.png) | ![](capturas/app_05_tanda_terminada.png) | ![](capturas/app_06_error_faltan_aportaciones.png) |
-
-### Qué probar en la app
+## 📱 Qué probar en la app
 
 | Caso | Qué hacer | Resultado esperado |
 |---|---|---|
@@ -150,4 +122,3 @@ flutter test
 ```bash
 flutter run
 ```
-
